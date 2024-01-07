@@ -21,6 +21,7 @@ package("gamedevframework1")
 
     on_test(function (package)
         assert(package:check_cxxsnippets({test = [[
+        #include <gf/Color.h>
         #include <gf/Event.h>
         #include <gf/RenderWindow.h>
         #include <gf/Window.h>
@@ -48,8 +49,6 @@ package("gamedevframework1")
                 renderer.clear();
                 renderer.display();
             }
-
-            return 0;
         }
         ]]}, {configs = {languages = "c++17"}}))
     end)
