@@ -7,12 +7,13 @@ package("gamedevframework1")
     set_urls("https://github.com/GamedevFramework/gf.git")
 
     add_versions("1.2.0", "4292920a780978ecc68876667b9733800193fc0f")
+    add_versions("1.2.80", "157cc83e9e5c2c59b60d3a27fef13cccfd4031e3") -- pre 1.3.0
 
     add_deps("cmake")
     add_deps("freetype", "libsdl", "pugixml", "stb", "zlib")
 
     on_install("windows", "linux", "macosx", function (package)
-        local configs = {"-DBUILD_TESTS=OFF", "-DGF_BUILD_EXAMPLES=OFF", "-DGF_BUILD_DOCUMENTATION=OFF", "-DGF_USE_EMBEDDED_LIBS=OFF"}
+        local configs = {"-DBUILD_TESTS=OFF", "-DGF_BUILD_EXAMPLES=OFF", "-DGF_BUILD_DOCUMENTATION=OFF", "-DGF_USE_EMBEDDED_LIBS=ON"}
         table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:debug() and "Debug" or "Release"))
         table.insert(configs, "-DBUILD_STATIC=" .. (package:config("shared") and "OFF" or "ON"))
         import("package.tools.cmake").install(package, configs, {buildir = os.tmpfile() .. ".dir"})
