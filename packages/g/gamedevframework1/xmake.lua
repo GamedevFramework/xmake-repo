@@ -10,7 +10,7 @@ package("gamedevframework1")
     add_versions("1.2.80", "157cc83e9e5c2c59b60d3a27fef13cccfd4031e3") -- pre 1.3.0
 
     add_deps("cmake")
-    add_deps("freetype", "libsdl", "pugixml", "stb", "zlib")
+    add_deps("boost", "freetype", "libsdl", "pugixml", "stb", "zlib")
 
     on_install("windows", "linux", "macosx", function (package)
         local configs = {"-DBUILD_TESTS=OFF", "-DGF_BUILD_EXAMPLES=OFF", "-DGF_BUILD_DOCUMENTATION=OFF", "-DGF_USE_EMBEDDED_LIBS=ON"}
