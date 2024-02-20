@@ -13,7 +13,7 @@ package("gamedevframework1")
     add_deps("boost", "freetype", "libsdl", "pugixml", "stb", "zlib")
 
     on_install("windows", "linux", "macosx", function (package)
-        local configs = {"-DBUILD_TESTS=OFF", "-DGF_BUILD_EXAMPLES=OFF", "-DGF_BUILD_DOCUMENTATION=OFF", "-DGF_USE_EMBEDDED_LIBS=ON"}
+        local configs = {"-DBUILD_TESTS=OFF", "-DGF_BUILD_EXAMPLES=OFF", "-DGF_BUILD_DOCUMENTATION=OFF", "-DGF_USE_EMBEDDED_LIBS=ON", "-DCMAKE_UNITY_BUILD=ON"}
         table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:debug() and "Debug" or "Release"))
         table.insert(configs, "-DBUILD_STATIC=" .. (package:config("shared") and "OFF" or "ON"))
         import("package.tools.cmake").install(package, configs, {buildir = os.tmpfile() .. ".dir"})
