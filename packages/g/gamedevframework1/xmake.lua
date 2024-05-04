@@ -1,7 +1,7 @@
 package("gamedevframework1")
     set_homepage("https://github.com/GamedevFramework/gf")
     set_description("Gamedev Framework (gf) is a framework to build 2D games in C++17. It is based on SDL and OpenGL ES 2.0, and presents an API that is very similar to the graphics module of SFML with additional features.")
-    set_license("zlib")
+    set_license("Zlib")
     set_policy("package.librarydeps.strict_compatibility", true)
 
     set_urls("https://github.com/GamedevFramework/gf.git")
