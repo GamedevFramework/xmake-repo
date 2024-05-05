@@ -25,6 +25,25 @@ package("gamedevframework2")
       "zlib"
     )
 
+    on_fetch(function (package, opt)
+        if not opt.system then
+            return
+        end
+
+        local gf2 = os.getenv("GF2_PATH")
+
+        if not gf2 or not os.isdir(gf2) then
+            return
+        end
+
+        local info = {
+          sysincludedirs = { path.join(gf2, "include") },
+          linkdirs = path.join(gf2, "build", package:plat(), package:arch(), package:mode()),
+        }
+
+        return info
+    end)
+
     on_install("windows", "linux", function (package)
         local configs = {}
         configs.binaries = false
