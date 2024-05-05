@@ -3,27 +3,50 @@ package("gamedevframework2")
     set_description("Gamedev Framework (gf) is a framework to build 2D games in C++17. It is based on SDL3 and Vulkan 1.3 and provides high-level constructions to easily build games.")
     set_license("Zlib")
 
-    set_policy("package.librarydeps.strict_compatibility", true)
     set_policy("package.install_always", true)
 
     set_urls("https://github.com/GamedevFramework/gf2.git")
 
-    add_deps(
-      "chipmunk2d",
-      "fmt",
-      "freetype",
-      "harfbuzz",
-      "imgui",
-      "libsdl",
-      "miniaudio",
-      "pugixml",
-      "stb",
-      "vk-bootstrap",
-      "volk",
-      "vulkan-headers",
-      "vulkan-memory-allocator",
-      "zlib"
-    )
+    add_components("core", "graphics", "network", "audio", "physics", "imgui", "framework")
+
+    on_component("core", function (package, component)
+        component:add("links", "gf2core0")
+        package:add("deps", "fmt", "freetype", "pugixml", "stb", "zlib")
+    end)
+
+    on_component("graphics", function (package, component)
+        component:add("links", "gf2graphics0")
+        component:add("deps", "core")
+        package:add("deps", "harfbuzz", "libsdl", "vk-bootstrap", "volk", "vulkan-headers", "vulkan-memory-allocator")
+    end)
+
+    on_component("network", function (package, component)
+        component:add("links", "gf2network0")
+        component:add("deps", "core")
+        if package:is_plat("windows") then
+            component:add("syslinks", "ws2_32")
+        end
+    end)
+
+    on_component("audio", function (package, component)
+        component:add("links", "gf2audio0")
+        component:add("deps", "core")
+        package:add("deps", "miniaudio", "stb")
+        if package:is_plat("linux") then
+            component:add("syslinks", "dl")
+        end
+    end)
+
+    on_component("imgui", function (package, component)
+        component:add("links", "gf2imgui0")
+        component:add("deps", "core", "graphics")
+        package:add("deps", "imgui")
+    end)
+
+    on_component("framework", function (package, component)
+        component:add("links", "gf2framework0")
+        component:add("deps", "core", "graphics", "audio")
+    end)
 
     on_fetch(function (package, opt)
         if not opt.system then
@@ -39,6 +62,7 @@ package("gamedevframework2")
         local info = {
           sysincludedirs = { path.join(gf2, "include") },
           linkdirs = path.join(gf2, "build", package:plat(), package:arch(), package:mode()),
+          links = { "gf2framework0", "gf2imgui0", "gf2audio0", "gf2network0", "gf2graphics0", "gf2core0" }
         }
 
         return info
