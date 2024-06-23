@@ -85,7 +85,7 @@ package("gamedevframework2")
         int test()
         {
           gf::SingleSceneManager scene_manager("test", gf::vec(1600, 900));
-          gf::StandardScene scene;
+          gf::Scene scene;
           return scene_manager.run(&scene);
         }
         ]]}, {configs = {languages = "c++17"}}))
