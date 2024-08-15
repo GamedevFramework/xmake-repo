@@ -3,6 +3,8 @@ package("gamedevframework2")
     set_description("Gamedev Framework (gf) is a framework to build 2D games in C++17. It is based on SDL3 and Vulkan 1.3 and provides high-level constructions to easily build games.")
     set_license("Zlib")
 
+    set_policy("package.install_always", true)
+
     set_urls("https://github.com/GamedevFramework/gf2.git")
 
     add_components("core", "graphics", "network", "audio", "physics", "imgui", "framework")
