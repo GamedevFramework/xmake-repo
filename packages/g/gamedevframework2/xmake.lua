@@ -35,6 +35,12 @@ package("gamedevframework2")
         end
     end)
 
+    on_component("physics", function (package, component)
+        component:add("links", "gf2physics0")
+        component:add("deps", "core")
+        package:add("deps", "chipmunk2d")
+    end)
+
     on_component("imgui", function (package, component)
         component:add("links", "gf2imgui0")
         component:add("deps", "core", "graphics")
