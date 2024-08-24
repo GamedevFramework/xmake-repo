@@ -49,7 +49,7 @@ package("gamedevframework2")
 
     on_component("framework", function (package, component)
         component:add("links", "gf2framework0")
-        component:add("deps", "core", "graphics", "audio")
+        component:add("deps", "core", "graphics", "audio", "physics")
     end)
 
     on_fetch(function (package, opt)
