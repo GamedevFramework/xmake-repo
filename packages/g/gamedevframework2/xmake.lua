@@ -5,17 +5,22 @@ package("gamedevframework2")
 
     set_urls("https://github.com/GamedevFramework/gf2.git")
 
-    add_components("core", "graphics", "network", "audio", "physics", "imgui", "framework")
+    add_configs("graphics", {description = "Use gf2 'graphics' component", default = true, type = "boolean"})
+    add_configs("network", {description = "Use gf2 'network' component", default = true, type = "boolean"})
+    add_configs("audio", {description = "Use gf2 'audio' component", default = true, type = "boolean"})
+    add_configs("physics", {description = "Use gf2 'physics' component", default = true, type = "boolean"})
+    add_configs("imgui", {description = "Use gf2 'imgui' component", default = true, type = "boolean"})
+    add_configs("framework", {description = "Use gf2 'framework' component", default = true, type = "boolean"})
 
     on_component("core", function (package, component)
         component:add("links", "gf2core0")
-        package:add("deps", "fmt", "freetype", "pugixml", "stb", "zlib")
+        component:add("links", "fmt", "freetype", "pugixml", "stb", "zlib")
     end)
 
     on_component("graphics", function (package, component)
         component:add("links", "gf2graphics0")
         component:add("deps", "core")
-        package:add("deps", "harfbuzz", "libsdl", "vk-bootstrap", "volk", "vulkan-headers", "vulkan-memory-allocator")
+        component:add("links", "harfbuzz", "libsdl", "vk-bootstrap", "volk", "vulkan-headers", "vulkan-memory-allocator")
     end)
 
     on_component("network", function (package, component)
@@ -29,7 +34,7 @@ package("gamedevframework2")
     on_component("audio", function (package, component)
         component:add("links", "gf2audio0")
         component:add("deps", "core")
-        package:add("deps", "miniaudio", "stb")
+        component:add("links", "miniaudio", "stb")
         if package:is_plat("linux") then
             component:add("syslinks", "dl")
         end
@@ -38,13 +43,13 @@ package("gamedevframework2")
     on_component("physics", function (package, component)
         component:add("links", "gf2physics0")
         component:add("deps", "core")
-        package:add("deps", "chipmunk2d")
+        component:add("links", "chipmunk2d")
     end)
 
     on_component("imgui", function (package, component)
         component:add("links", "gf2imgui0")
         component:add("deps", "core", "graphics")
-        package:add("deps", "imgui")
+        component:add("links", "imgui")
     end)
 
     on_component("framework", function (package, component)
@@ -52,25 +57,33 @@ package("gamedevframework2")
         component:add("deps", "core", "graphics", "audio", "physics")
     end)
 
---     on_fetch(function (package, opt)
---         if not opt.system then
---             return
---         end
---
---         local gf2 = os.getenv("GF2_PATH")
---
---         if not gf2 or not os.isdir(gf2) then
---             return
---         end
---
---         local info = {
---           sysincludedirs = { path.join(gf2, "include") },
---           linkdirs = path.join(gf2, "build", package:plat(), package:arch(), package:mode()),
---           links = { "gf2framework0", "gf2imgui0", "gf2audio0", "gf2network0", "gf2graphics0", "gf2core0" }
---         }
---
---         return info
---     end)
+    on_load("windows", "linux", function (package)
+        package:add("components", "core")
+        package:add("deps", "fmt", "freetype", "pugixml", "stb", "zlib")
+
+        if package:config("graphics") then
+            package:add("deps", "harfbuzz", "libsdl", "vk-bootstrap", "volk", "vulkan-headers", "vulkan-memory-allocator")
+        end
+
+        if package:config("audio") then
+            package:add("deps", "miniaudio", "stb")
+        end
+
+        if package:config("physics") then
+            package:add("deps", "chipmunk2d")
+        end
+
+        if package:config("imgui") then
+            package:add("deps", "imgui")
+        end
+
+        for _, component in ipairs({"graphics", "network", "audio", "physics", "imgui", "framework"}) do
+            if package:config(component) then
+                package:add("components", component)
+            end
+        end
+
+    end)
 
     on_install("windows", "linux", function (package)
         local configs = {}
