@@ -52,25 +52,25 @@ package("gamedevframework2")
         component:add("deps", "core", "graphics", "audio", "physics")
     end)
 
-    on_fetch(function (package, opt)
-        if not opt.system then
-            return
-        end
-
-        local gf2 = os.getenv("GF2_PATH")
-
-        if not gf2 or not os.isdir(gf2) then
-            return
-        end
-
-        local info = {
-          sysincludedirs = { path.join(gf2, "include") },
-          linkdirs = path.join(gf2, "build", package:plat(), package:arch(), package:mode()),
-          links = { "gf2framework0", "gf2imgui0", "gf2audio0", "gf2network0", "gf2graphics0", "gf2core0" }
-        }
-
-        return info
-    end)
+--     on_fetch(function (package, opt)
+--         if not opt.system then
+--             return
+--         end
+--
+--         local gf2 = os.getenv("GF2_PATH")
+--
+--         if not gf2 or not os.isdir(gf2) then
+--             return
+--         end
+--
+--         local info = {
+--           sysincludedirs = { path.join(gf2, "include") },
+--           linkdirs = path.join(gf2, "build", package:plat(), package:arch(), package:mode()),
+--           links = { "gf2framework0", "gf2imgui0", "gf2audio0", "gf2network0", "gf2graphics0", "gf2core0" }
+--         }
+--
+--         return info
+--     end)
 
     on_install("windows", "linux", function (package)
         local configs = {}
