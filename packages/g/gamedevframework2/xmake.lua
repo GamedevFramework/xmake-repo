@@ -77,7 +77,7 @@ package("gamedevframework2")
                 package:add("components", component)
 
                 if not package:config("shared") then
-                    package:add("defines", "GF2_" .. component:upper() .. "_STATIC")
+                    package:add("defines", "GF_" .. component:upper() .. "_STATIC")
                 end
             end
         end
