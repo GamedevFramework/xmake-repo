@@ -10,7 +10,7 @@ package("gamedevframework1")
     add_versions("1.2.80", "157cc83e9e5c2c59b60d3a27fef13cccfd4031e3") -- pre 1.3.0
 
     add_deps("cmake")
-    add_deps("boost", "freetype", "libsdl", "pugixml", "stb", "zlib")
+    add_deps("boost 1.84", "freetype", "libsdl", "pugixml", "stb", "zlib")
 
     add_configs("shared", { description = "Build shared library.", default = false, type = "boolean" })
 
