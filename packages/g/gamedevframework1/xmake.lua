@@ -2,23 +2,27 @@ package("gamedevframework1")
     set_homepage("https://github.com/GamedevFramework/gf")
     set_description("Gamedev Framework (gf) is a framework to build 2D games in C++17. It is based on SDL and OpenGL ES 2.0, and presents an API that is very similar to the graphics module of SFML with additional features.")
     set_license("Zlib")
-    set_policy("package.librarydeps.strict_compatibility", true)
 
     set_urls("https://github.com/GamedevFramework/gf.git")
 
-    add_versions("1.2.0", "4292920a780978ecc68876667b9733800193fc0f")
-    add_versions("1.2.80", "157cc83e9e5c2c59b60d3a27fef13cccfd4031e3") -- pre 1.3.0
-
     add_deps("cmake")
-    add_deps("boost 1.84", "freetype", "libsdl", "pugixml", "stb", "zlib")
+    add_deps("freetype", "libsdl", "pugixml", "stb", "zlib")
+    add_deps("boost", { configs = { container = true }})
 
     add_configs("shared", { description = "Build shared library.", default = false, type = "boolean" })
 
-    on_install("windows", "linux", "macosx", function (package)
-        local configs = {"-DBUILD_TESTS=OFF", "-DGF_BUILD_EXAMPLES=OFF", "-DGF_BUILD_DOCUMENTATION=OFF", "-DGF_USE_EMBEDDED_LIBS=ON", "-DCMAKE_UNITY_BUILD=ON"}
-        table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:debug() and "Debug" or "Release"))
-        table.insert(configs, "-DBUILD_SHARED_LIBS=" .. (package:config("shared") and "ON" or "OFF"))
-        import("package.tools.cmake").install(package, configs, {buildir = os.tmpfile() .. ".dir"})
+    on_load("windows", "linux", function (package)
+        package:add("links", "gf0", "gfnet0", "gfcore0")
+
+        if not package:config("shared") then
+            package:add("defines", "GF_STATIC")
+        end
+    end)
+
+    on_install("windows", "linux", function (package)
+        local configs = {}
+        configs.tests = false
+        import("package.tools.xmake").install(package, configs)
     end)
 
     on_test(function (package)
