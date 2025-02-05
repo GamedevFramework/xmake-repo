@@ -57,7 +57,7 @@ package("gamedevframework2")
         package:add("deps", "fmt", "freetype", "pugixml", "stb", "zlib")
 
         if package:config("graphics") then
-            package:add("deps", "harfbuzz", "libsdl", "vk-bootstrap", "volk", "vulkan-headers", "vulkan-memory-allocator")
+            package:add("deps", "harfbuzz", "libsdl3", "vk-bootstrap", "volk", "vulkan-headers", "vulkan-memory-allocator")
         end
 
         if package:config("audio") then
