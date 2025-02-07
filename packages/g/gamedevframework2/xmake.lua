@@ -72,6 +72,10 @@ package("gamedevframework2")
             package:add("deps", "imgui")
         end
 
+        if not package:config("shared") then
+            package:add("defines", "GF_CORE_STATIC")
+        end
+
         for _, component in ipairs({"graphics", "network", "audio", "physics", "imgui", "framework"}) do
             if package:config(component) then
                 package:add("components", component)
