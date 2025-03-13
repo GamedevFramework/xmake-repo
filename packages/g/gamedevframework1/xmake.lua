@@ -6,7 +6,7 @@ package("gamedevframework1")
     set_urls("https://github.com/GamedevFramework/gf.git")
 
     add_deps("cmake")
-    add_deps("freetype", "libsdl", "pugixml", "stb", "zlib")
+    add_deps("freetype", "libsdl2", "opengl-headers", "pugixml", "stb", "zlib")
     add_deps("boost", { configs = { container = true }})
 
     add_configs("shared", { description = "Build shared library.", default = false, type = "boolean" })
