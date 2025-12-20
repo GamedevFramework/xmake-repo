@@ -59,11 +59,7 @@ package("gamedevframework2")
 
         if package:config("graphics") then
             package:add("deps", "harfbuzz")
-            if package:is_plat("linux") then
-                package:add("deps", "libsdl3", { configs = { wayland = true, x11 = true } })
-            else
-                package:add("deps", "libsdl3")
-            end
+            package:add("deps", "libsdl3")
         end
 
         if package:config("audio") then
