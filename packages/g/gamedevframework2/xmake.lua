@@ -54,14 +54,20 @@ package("gamedevframework2")
 
     on_load("windows", "linux", function (package)
         package:add("components", "core")
-        package:add("deps", "fmt", "freetype", "pugixml", "stb", "zlib")
+        package:add("deps", "fmt", "zlib")
+        package:add("deps", "freetype", "pugixml", "stb", { private = true })
 
         if package:config("graphics") then
-            package:add("deps", "harfbuzz", "libsdl3")
+            package:add("deps", "harfbuzz", { private = true })
+            if package:is_plat("linux") then
+                package:add("deps", "libsdl3", { configs = { wayland = true, x11 = true } })
+            else
+                package:add("deps", "libsdl3")
+            end
         end
 
         if package:config("audio") then
-            package:add("deps", "miniaudio", "stb")
+            package:add("deps", "miniaudio", "stb", { private = true })
         end
 
         if package:config("physics") then
