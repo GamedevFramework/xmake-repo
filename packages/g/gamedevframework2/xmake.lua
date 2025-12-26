@@ -67,11 +67,11 @@ package("gamedevframework2")
         end
 
         if package:config("physics") then
-            package:add("deps", "box2d")
+            package:add("deps", "box2d @default")
         end
 
         if package:config("imgui") then
-            package:add("deps", "imgui")
+            package:add("deps", "imgui >= 1.92.0")
         end
 
         if not package:config("shared") then
