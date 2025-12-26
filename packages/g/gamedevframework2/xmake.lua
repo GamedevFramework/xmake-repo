@@ -1,6 +1,6 @@
 package("gamedevframework2")
     set_homepage("https://github.com/GamedevFramework/gf2")
-    set_description("Gamedev Framework (gf) is a framework to build 2D games in C++17. It is based on SDL3 and provides high-level constructions to easily build games.")
+    set_description("Gamedev Framework (gf) is a framework to build 2D games in C++20. It is based on SDL3 and provides high-level constructions to easily build games.")
     set_license("Zlib")
 
     set_urls("https://github.com/GamedevFramework/gf2.git")
@@ -110,5 +110,5 @@ package("gamedevframework2")
           gf::Scene scene;
           return scene_manager.run(&scene);
         }
-        ]]}, {configs = {languages = "c++17"}}))
+        ]]}, {configs = {languages = "cxx20"}}))
     end)
