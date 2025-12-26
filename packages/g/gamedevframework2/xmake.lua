@@ -67,7 +67,7 @@ package("gamedevframework2")
         end
 
         if package:config("physics") then
-            package:add("deps", "chipmunk2d")
+            package:add("deps", "box2d")
         end
 
         if package:config("imgui") then
