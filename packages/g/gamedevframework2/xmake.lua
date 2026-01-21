@@ -52,7 +52,7 @@ package("gamedevframework2")
         component:add("deps", "core", "graphics", "audio", "physics")
     end)
 
-    on_load("windows", "linux", "macos", function (package)
+    on_load("windows", "linux", "macosx", function (package)
         package:add("components", "core")
         package:add("deps", "fmt", "zlib")
         package:add("deps", "freetype", "pugixml", "stb")
@@ -90,7 +90,7 @@ package("gamedevframework2")
 
     end)
 
-    on_install("windows", "linux", "macos", function (package)
+    on_install("windows", "linux", "macosx", function (package)
         local configs = {}
         configs.binaries = false
         configs.examples = false
