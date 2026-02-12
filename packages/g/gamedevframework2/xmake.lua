@@ -5,12 +5,15 @@ package("gamedevframework2")
 
     set_urls("https://github.com/GamedevFramework/gf2.git")
 
+    add_configs("core-only", {description = "Only use gf2 'core' component", default = false, type = "boolean"})
     add_configs("graphics", {description = "Use gf2 'graphics' component", default = true, type = "boolean"})
     add_configs("network", {description = "Use gf2 'network' component", default = true, type = "boolean"})
     add_configs("audio", {description = "Use gf2 'audio' component", default = true, type = "boolean"})
     add_configs("physics", {description = "Use gf2 'physics' component", default = true, type = "boolean"})
     add_configs("imgui", {description = "Use gf2 'imgui' component", default = true, type = "boolean"})
     add_configs("framework", {description = "Use gf2 'framework' component", default = true, type = "boolean"})
+
+    local gf2_components = { "graphics", "network", "audio", "physics", "imgui", "framework" }
 
     on_component("core", function (package, component)
         component:add("links", "gf2core0")
@@ -57,6 +60,13 @@ package("gamedevframework2")
         package:add("deps", "fmt", "zlib")
         package:add("deps", "freetype", "pugixml", "stb")
 
+        if (package:config("core-only")) then
+            -- disable all other components
+            for _, component in ipairs(gf2_components) do
+                package:set_config(component, false)
+            end
+        end
+
         if package:config("graphics") then
             package:add("deps", "harfbuzz")
             package:add("deps", "libsdl3")
@@ -78,7 +88,7 @@ package("gamedevframework2")
             package:add("defines", "GF_CORE_STATIC")
         end
 
-        for _, component in ipairs({"graphics", "network", "audio", "physics", "imgui", "framework"}) do
+        for _, component in ipairs(gf2_components) do
             if package:config(component) then
                 package:add("components", component)
 
