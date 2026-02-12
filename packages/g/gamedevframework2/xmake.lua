@@ -96,19 +96,37 @@ package("gamedevframework2")
         configs.examples = false
         configs.tests = false
         configs.games = false
+        configs.graphics = package:config("graphics")
+        configs.network = package:config("network")
+        configs.audio = package:config("audio")
+        configs.physics = package:config("physics")
+        configs.imgui = package:config("imgui")
+        configs.framework = package:config("framework")
         import("package.tools.xmake").install(package, configs)
     end)
 
     on_test(function (package)
-        assert(package:check_cxxsnippets({test = [[
-        #include <gf2/graphics/Scene.h>
-        #include <gf2/graphics/SceneManager.h>
+        if package:config("graphics") then
+            assert(package:check_cxxsnippets({test = [[
+            #include <gf2/graphics/Scene.h>
+            #include <gf2/graphics/SceneManager.h>
 
-        int test()
-        {
-          gf::SingleSceneManager scene_manager("test", gf::vec(1600, 900));
-          gf::Scene scene;
-          return scene_manager.run(&scene);
-        }
-        ]]}, {configs = {languages = "cxx20"}}))
+            int test()
+            {
+                gf::SingleSceneManager scene_manager("test", gf::vec(1600, 900));
+                gf::Scene scene;
+                return scene_manager.run(&scene);
+            }
+            ]]}, {configs = {languages = "cxx20"}}))
+        else
+            assert(package:check_cxxsnippets({test = [[
+            #include <gf2/core/Image.h>
+
+            int test()
+            {
+                gf::Image image(gf::vec(1600, 900));
+                return 0;
+            }
+            ]]}, {configs = {languages = "cxx20"}}))
+        end
     end)
