@@ -63,7 +63,7 @@ package("gamedevframework2")
         if (package:config("core_only")) then
             -- disable all other components
             for _, component in ipairs(gf2_components) do
-                package:set_config(component, false)
+                package:config_set(component, false)
             end
         end
 
