@@ -5,7 +5,7 @@ package("gamedevframework2")
 
     set_urls("https://github.com/GamedevFramework/gf2.git")
 
-    add_configs("core-only", {description = "Only use gf2 'core' component", default = false, type = "boolean"})
+    add_configs("core_only", {description = "Only use gf2 'core' component", default = false, type = "boolean"})
     add_configs("graphics", {description = "Use gf2 'graphics' component", default = true, type = "boolean"})
     add_configs("network", {description = "Use gf2 'network' component", default = true, type = "boolean"})
     add_configs("audio", {description = "Use gf2 'audio' component", default = true, type = "boolean"})
@@ -60,7 +60,7 @@ package("gamedevframework2")
         package:add("deps", "fmt", "zlib")
         package:add("deps", "freetype", "pugixml", "stb")
 
-        if (package:config("core-only")) then
+        if (package:config("core_only")) then
             -- disable all other components
             for _, component in ipairs(gf2_components) do
                 package:set_config(component, false)
